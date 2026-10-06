@@ -33,3 +33,21 @@ class ConflictError(DomainError):
 
     code = "conflict"
     status = 409
+
+
+class StateError(DomainError):
+    """业务对象当前生命周期状态不允许该动作。"""
+
+    code = "state_error"
+    status = 409
+
+
+class PreconditionError(DomainError):
+    """阶段门前置条件（前置里程碑或独立验收）未满足。"""
+
+    code = "precondition_failed"
+    status = 422
+
+    def __init__(self, message: str, blocks: list[dict[str, str]] | None = None) -> None:
+        super().__init__(message)
+        self.blocks = blocks or []

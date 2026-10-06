@@ -25,6 +25,8 @@ class DomainService:
     def __init__(self, database: Database, clock: Clock | None = None) -> None:
         self.database = database
         self.clock = clock or SystemClock()
+        from .milestone_service import MilestoneService
+        self.milestones = MilestoneService(database, self.clock)
 
     def _now(self) -> str:
         return self.clock.now().isoformat().replace("+00:00", "Z")
